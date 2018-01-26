@@ -1,0 +1,44 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+xmlns:beans="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+	
+
+
+<!-- context component scan for scanning all the @Repository  -->
+<context:component-scan base-package = "com.web.electriohubbackend" />
+
+<!-- http for none security on resources -->
+<http pattern="/resources/**" security="none"/>
+
+<!-- http for role based security  -->
+<http>
+<intercept-url pattern="/login" access="permitAll"/>
+<intercept-url pattern="/**" access="ROLE_USER" />
+<form-login login-page='/login.jsp'/>
+</http>
+
+
+
+
+<!--  authentication manager and authentication provider over jdbc  -->
+
+<authentication-manager>
+<authentication-provider>
+	<user-service>
+	<user name="jimi" password="123"
+			authorities="ROLE_USER, ROLE_ADMIN" />
+	<user name="bob" password="1234"
+			authorities="ROLE_USER" />
+
+	</user-service>
+</authentication-provider>
+</authentication-manager>
+
+</beans:beans>
